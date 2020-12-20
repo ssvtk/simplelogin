@@ -2,7 +2,6 @@ package database
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/jackc/pgx"
 	"io/ioutil"
 	"log"
@@ -31,7 +30,7 @@ func Connect() *pgx.Conn {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Connection to DB has been successfully done")
+	log.Println("Connection to DB has been successfully done")
 	return conn
 }
 
