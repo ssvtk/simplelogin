@@ -6,7 +6,10 @@ import (
 	"github.com/jackc/pgx"
 	"io/ioutil"
 	"log"
+	"net/http"
 )
+
+var DB *pgx.Conn
 
 //DBConfig unmarshalls the JSON file to pgx.ConnConfig struct and returns it.
 func DBConfig() *pgx.ConnConfig {
@@ -22,7 +25,6 @@ func DBConfig() *pgx.ConnConfig {
 	return cfg
 }
 
-
 //Connect performs a connection to DB according to DBConfig.
 func Connect() *pgx.Conn {
 	conn, err := pgx.Connect(*DBConfig())
@@ -33,4 +35,13 @@ func Connect() *pgx.Conn {
 	return conn
 }
 
-
+//InsertToDB inserts login and password into the connected db
+func InsertToDB(login string, password []byte, w http.ResponseWriter) {
+	DB = Connect()
+	_, err := DB.Query("INSERT INTO users values ($1, $2)", login, string(password))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	DB.Close()
+}

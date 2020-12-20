@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"simplelogin/database"
+	"log"
+	"net/http"
+	"simplelogin/serv"
 )
 
 func main() {
-	conn := database.Connect()
-	fmt.Println(conn)
+	http.HandleFunc("/signup", serv.SignUp)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
