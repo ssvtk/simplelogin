@@ -5,7 +5,7 @@ import (
 	"simplelogin/database"
 )
 
-//SignIn ...
+//SignIn handles incomming logic as a handler function
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	creds := ParseCredentials(w, r)
 	hashedPassword := HashPassword(creds)
